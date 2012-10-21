@@ -3,8 +3,15 @@
     "description": "Taller de Composer Comunidad PHP Puebla",
     "homepage": "http://www.comunidadphppuebla.com",
     "license": "MIT",
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/itbz/Aura.Router.git"
+        }
+    ],
     "require": {
         "php": ">=5.3.2",
-        "ext-pdo": "*"
+        "ext-pdo": "*",
+        "aura/router": "dev-master"
     }
 }

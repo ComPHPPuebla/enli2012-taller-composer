@@ -1,7 +1,7 @@
 <?php
-$dsn = 'mysql:host=localhost;dbname=digit2012';
-$user = 'digit2012_user';
-$password = 'digit2012_us3r';
+$dsn = 'mysql:host=localhost;dbname=book_store';
+$user = 'bstore_user';
+$password = 'book_store_us3r';
 try {
     $conn = new PDO($dsn, $user, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

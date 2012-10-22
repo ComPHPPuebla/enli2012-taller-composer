@@ -18,10 +18,9 @@ $request = Request::createFromGlobals();
 $route = $map->match($request->getPathInfo(), $request->server->all());
 
 if (!$route) {
-	$content = '<p>La página que buscas no existe</p>';
-    $response = new Response($content);
-    $response->setStatusCode(404);
-    $response->send();
+	$template = 'error/not-found.phtml';
+    $responseCode = 404;
+    $viewValues = array();
 } else {
 	if ('books' === $route->values['controller']) {
 		switch($route->values['action']) {
@@ -39,25 +38,11 @@ if (!$route) {
 				$sql = 'SELECT * FROM book';
 				$statement = $conn->prepare($sql);
 				$statement->execute();
-				$books = $statement->fetchAll(PDO::FETCH_ASSOC);
-			?>
-				<table>
-				    <tr>
-				        <th>ID</th>
-				        <th>Título</th>
-				    </tr>
-				<?php foreach($books as $book) : ?>
-				    <tr>
-				        <td>
-				            <a href="/enli2012/public/books/show/<?php echo $book['book_id'] ?>">
-				                Detalles
-				            </a>
-				        </td>
-				        <td><?php echo $book['title'] ?></td>
-				    <tr>
-				<?php endforeach ?>
-				</table>
-			<?php 
+				$viewValues = array(
+					'books' => $statement->fetchAll(PDO::FETCH_ASSOC)
+				);
+				$template = 'books/list.phtml';
+				$responseCode = 200;
 				break;
 			case 'show':
 				$dsn = 'mysql:host=localhost;dbname=book_store';
@@ -77,29 +62,33 @@ if (!$route) {
 				     . 'WHERE book_id = ?';
 				$statement = $conn->prepare($sql);
 				$statement->execute(array($bookId));
-				$book = $statement->fetch(PDO::FETCH_ASSOC);
-			?>
-				<dl>
-				    <dt>Título</dt>
-				    <dd><?php echo $book['title'] ?></dd>
-				    <dt>Autor</dt>
-				    <dd><?php echo $book['author'] ?></dd>
-				</dl>
-				<p>
-				    <a href="/enli2012/public/books/list">Volver a la lista</a>
-				</p>
-			<?php 
+				$viewValues = array(
+					'book' => $statement->fetch(PDO::FETCH_ASSOC)
+				);
+				$template = 'books/show.phtml';
+				$responseCode = 200;
 				break;
 			default:
 				$content = '<p>La página que buscas no existe</p>';
-			    $response = new Response($content);
-			    $response->setStatusCode(404);
-			    $response->send();
+				$template = 'error/not-found.phtml';
+			    $responseCode = 404;
+			    $viewValues = array();
 		}	
 	} else {
-		$content = '<p>La página que buscas no existe</p>';
-	    $response = new Response($content);
-	    $response->setStatusCode(404);
-	    $response->send();
+		$template = 'error/not-found.phtml';
+	    $responseCode = 404;
+	    $viewValues = array();
 	}
 }
+
+//Setup the view Layer
+$loader = new Twig_Loader_Filesystem(__DIR__ . '/../views');
+$twig = new Twig_Environment($loader, array(
+	'cache' => __DIR__ . '/../views/cache',
+));
+$content = $twig->render($template, $viewValues);
+
+//Send the response
+$response = new Response($content);
+$response->setStatusCode(404);
+$response->send();

@@ -3,21 +3,25 @@ require '../vendor/autoload.php';
 
 use Aura\Router\Map;
 use Aura\Router\RouteFactory;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
-//Define your routes
+// Define your routes
 $map = new Map(new RouteFactory());
 // /books/list
-$map->add('default', '/enli2012/public/{:controller}/{:action}');
+$map->add('default', '/{:controller}/{:action}');
 // /books/show/1
-$map->add('detail', '/enli2012/public/{:controller}/{:action}/{:bookId}');
+$map->add('detail', '/{:controller}/{:action}/{:bookId}');
 
-//Match them
-$path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
-$route = $map->match($path, $_SERVER);
+// Route the request
+$request = Request::createFromGlobals();
+$route = $map->match($request->getPathInfo(), $request->server->all());
 
 if (!$route) {
-	header("HTTP/1.1 404 Not Found");
-	echo '<p>La página que buscas no existe</p>';
+	$content = '<p>La página que buscas no existe</p>';
+    $response = new Response($content);
+    $response->setStatusCode(404);
+    $response->send();
 } else {
 	if ('books' === $route->values['controller']) {
 		switch($route->values['action']) {
@@ -87,12 +91,15 @@ if (!$route) {
 			<?php 
 				break;
 			default:
-				header("HTTP/1.1 404 Not Found");
-				echo '<p>La página que buscas no existe</p>';
-				break;
+				$content = '<p>La página que buscas no existe</p>';
+			    $response = new Response($content);
+			    $response->setStatusCode(404);
+			    $response->send();
 		}	
 	} else {
-		header("HTTP/1.1 404 Not Found");
-		echo '<p>La página que buscas no existe</p>';
+		$content = '<p>La página que buscas no existe</p>';
+	    $response = new Response($content);
+	    $response->setStatusCode(404);
+	    $response->send();
 	}
 }

@@ -1,5 +1,6 @@
 <?php
-require '../vendor/autoload.php';
+$loader = require '../vendor/autoload.php';
+$loader->add('', __DIR__ . '/../vendor/notorm'); //Autoload NotORM component
 
 use Aura\Router\Map;
 use Aura\Router\RouteFactory;
@@ -7,11 +8,20 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 // Define your routes
-$map = new Map(new RouteFactory());
-// /books/list
-$map->add('default', '/{:controller}/{:action}');
-// /books/show/1
-$map->add('detail', '/{:controller}/{:action}/{:bookId}');
+$routes = array(
+	'/books' => array(
+		'name_prefix' => 'composer.books.',
+		'values' => array(
+			'controller' => 'books', //Controller will default to books
+		),
+		'routes' => array(
+			'list' => '/{:action}',
+			'show' => '/{:action}/{:bookId}'
+		)
+	)
+);
+$factory = new RouteFactory();
+$map = new Map($factory, $routes);
 
 // Route the request
 $request = Request::createFromGlobals();
@@ -22,63 +32,33 @@ if (!$route) {
     $responseCode = 404;
     $viewValues = array();
 } else {
-	if ('books' === $route->values['controller']) {
-		switch($route->values['action']) {
-			case 'list':
-				$dsn = 'mysql:host=localhost;dbname=book_store';
-				$user = 'bstore_user';
-				$password = 'book_store_us3r';
-				try {
-				    $conn = new PDO($dsn, $user, $password);
-				    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-				} catch (PDOException $e) {
-				    echo $e->getMessage();
-				    die();
-				}
-				$sql = 'SELECT * FROM book';
-				$statement = $conn->prepare($sql);
-				$statement->execute();
-				$viewValues = array(
-					'books' => $statement->fetchAll(PDO::FETCH_ASSOC)
-				);
-				$template = 'books/list.phtml';
-				$responseCode = 200;
-				break;
-			case 'show':
-				$dsn = 'mysql:host=localhost;dbname=book_store';
-				$user = 'bstore_user';
-				$password = 'book_store_us3r';
-				try {
-				    $conn = new PDO($dsn, $user, $password);
-				    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-				} catch (PDOException $e) {
-				    echo $e->getMessage();
-				    die();
-				}
-				$bookId = $route->values['bookId'];
-				$sql = 'SELECT b.title, a.name AS author '
-				     . 'FROM book b INNER JOIN author a '
-				     . 'ON b.author_id = a.author_id '
-				     . 'WHERE book_id = ?';
-				$statement = $conn->prepare($sql);
-				$statement->execute(array($bookId));
-				$viewValues = array(
-					'book' => $statement->fetch(PDO::FETCH_ASSOC)
-				);
-				$template = 'books/show.phtml';
-				$responseCode = 200;
-				break;
-			default:
-				$content = '<p>La página que buscas no existe</p>';
-				$template = 'error/not-found.phtml';
-			    $responseCode = 404;
-			    $viewValues = array();
-		}	
-	} else {
-		$template = 'error/not-found.phtml';
-	    $responseCode = 404;
-	    $viewValues = array();
-	}
+	// Setup database access
+	$dsn = 'mysql:host=localhost;dbname=digit2012';
+	$user = 'digit2012_user';
+	$password = 'digit2012_us3r';
+	$pdo = new PDO($dsn, $user, $password);
+	$notORM = new NotORM($pdo);
+	switch($route->values['action']) {
+		case 'list':
+			$viewValues = array('books' => $notORM->book());
+			$template = 'books/list.phtml';
+			$responseCode = 200;
+			break;
+		case 'show':
+			$bookId = $route->values['bookId'];
+			$book = $notORM->book('book_id = ?', $bookId)->fetch();
+        	$book['author'] = $notORM->author('author_id', $book['author_id'])
+                         			 ->fetch();
+			$viewValues = array('book' => $book);
+			$template = 'books/show.phtml';
+			$responseCode = 200;
+			break;
+		default:
+			$content = '<p>La página que buscas no existe</p>';
+			$template = 'error/not-found.phtml';
+			$responseCode = 404;
+			$viewValues = array();
+	}	
 }
 
 //Setup the view Layer

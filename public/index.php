@@ -1,13 +1,14 @@
 <?php
 $loader = require '../vendor/autoload.php';
-$loader->add('', __DIR__ . '/../vendor/notorm'); //Autoload NotORM component
+$loader->add('', __DIR__ . '/../vendor/notorm'); //Autoload NotORM 
+$loader->add('ComPHPPuebla', __DIR__ . '/../library/'); // Autoload ComPHPPuebla
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Zend\Di\Config;
 use Zend\Di\Di;
 
-//Configure your app
+//Configure your application
 $config = require '../configs/application.php';
 $diConfig = new Config($config);
 $di = new Di();
@@ -26,20 +27,19 @@ if (!$route) {
     $viewValues = array();
 } else {
 	
-	// Setup database access
-	$notORM = $di->get('NotORM');
+	// Get the controller and its dependencies
+	$controller = ucfirst($route->values['controller']);
+	$className = sprintf('ComPHPPuebla\Controller\%sController', $controller);
+	$controller = $di->get($className);
+	$controller->setParams($route->values);
 	switch($route->values['action']) {
 		case 'list':
-			$viewValues = array('books' => $notORM->book());
+			$viewValues = $controller->listAction();
 			$template = 'books/list.phtml';
 			$responseCode = 200;
 			break;
 		case 'show':
-			$bookId = $route->values['bookId'];
-			$book = $notORM->book('book_id = ?', $bookId)->fetch();
-        	$book['author'] = $notORM->author('author_id', $book['author_id'])
-                         			 ->fetch();
-			$viewValues = array('book' => $book);
+			$viewValues = $controller->showAction();
 			$template = 'books/show.phtml';
 			$responseCode = 200;
 			break;

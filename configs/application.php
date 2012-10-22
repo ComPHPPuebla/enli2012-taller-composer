@@ -1,6 +1,11 @@
 <?php
 $config = array(
     'instance' => array(
+    	'ComPHPPuebla\Controller\BooksController' => array(
+   			'parameters' => array(
+ 				'notORM' => 'NotORM',
+    		),
+    	),
         'Aura\Router\Map' => array(
             'parameters' => array(
                 'route_factory' => 'Aura\Router\RouteFactory',

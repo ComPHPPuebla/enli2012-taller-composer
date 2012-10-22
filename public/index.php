@@ -2,26 +2,19 @@
 $loader = require '../vendor/autoload.php';
 $loader->add('', __DIR__ . '/../vendor/notorm'); //Autoload NotORM component
 
-use Aura\Router\Map;
-use Aura\Router\RouteFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Zend\Di\Config;
+use Zend\Di\Di;
 
-// Define your routes
-$routes = array(
-	'/books' => array(
-		'name_prefix' => 'composer.books.',
-		'values' => array(
-			'controller' => 'books', //Controller will default to books
-		),
-		'routes' => array(
-			'list' => '/{:action}',
-			'show' => '/{:action}/{:bookId}'
-		)
-	)
-);
-$factory = new RouteFactory();
-$map = new Map($factory, $routes);
+//Configure your app
+$config = require '../configs/application.php';
+$diConfig = new Config($config);
+$di = new Di();
+$diConfig->configure($di);
+
+// Setup the router
+$map = $di->get('Aura\Router\Map');
 
 // Route the request
 $request = Request::createFromGlobals();
@@ -32,12 +25,9 @@ if (!$route) {
     $responseCode = 404;
     $viewValues = array();
 } else {
+	
 	// Setup database access
-	$dsn = 'mysql:host=localhost;dbname=digit2012';
-	$user = 'digit2012_user';
-	$password = 'digit2012_us3r';
-	$pdo = new PDO($dsn, $user, $password);
-	$notORM = new NotORM($pdo);
+	$notORM = $di->get('NotORM');
 	switch($route->values['action']) {
 		case 'list':
 			$viewValues = array('books' => $notORM->book());
@@ -62,10 +52,7 @@ if (!$route) {
 }
 
 //Setup the view Layer
-$loader = new Twig_Loader_Filesystem(__DIR__ . '/../views');
-$twig = new Twig_Environment($loader, array(
-	'cache' => __DIR__ . '/../views/cache',
-));
+$twig = $di->get('Twig_Environment');
 $content = $twig->render($template, $viewValues);
 
 //Send the response

@@ -7,6 +7,10 @@
         {
             "type": "git",
             "url": "https://github.com/itbz/Aura.Router.git"
+        },
+        {
+            "type": "composer",
+            "url": "http://packages.zendframework.com/"
         }
     ],
     "require": {
@@ -15,6 +19,8 @@
         "aura/router": "dev-master",
         "symfony/http-foundation": "dev-master",
         "twig/twig": "1.*",
-        "notorm": "dev-master"
+        "notorm": "dev-master",
+        "zendframework/zend-di": "2.0.*",
+        "zendframework/zend-eventmanager": "2.0.*"
     }
 }

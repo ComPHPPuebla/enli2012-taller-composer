@@ -7,6 +7,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Zend\Di\Config;
 use Zend\Di\Di;
+use ComPHPPuebla\Dispatcher\Dispatcher;
+use ComPHPPuebla\Dispatcher\NotFoundException;
 
 //Configure your application
 $config = require '../configs/application.php';
@@ -21,34 +23,21 @@ $map = $di->get('Aura\Router\Map');
 $request = Request::createFromGlobals();
 $route = $map->match($request->getPathInfo(), $request->server->all());
 
-if (!$route) {
-	$template = 'error/not-found.phtml';
-    $responseCode = 404;
+//Dispatch the request
+try {
+    $dispatcher = new Dispatcher();
+    $controller = $di->get($dispatcher->getControllerClass($route));
+    $viewValues = $dispatcher->dispatch($controller, $route->values);
+    $responseCode = 200;
+    $template = $dispatcher->getTemplateName();
+} catch (NotFoundException $nfe) {
     $viewValues = array();
-} else {
-	
-	// Get the controller and its dependencies
-	$controller = ucfirst($route->values['controller']);
-	$className = sprintf('ComPHPPuebla\Controller\%sController', $controller);
-	$controller = $di->get($className);
-	$controller->setParams($route->values);
-	switch($route->values['action']) {
-		case 'list':
-			$viewValues = $controller->listAction();
-			$template = 'books/list.phtml';
-			$responseCode = 200;
-			break;
-		case 'show':
-			$viewValues = $controller->showAction();
-			$template = 'books/show.phtml';
-			$responseCode = 200;
-			break;
-		default:
-			$content = '<p>La página que buscas no existe</p>';
-			$template = 'error/not-found.phtml';
-			$responseCode = 404;
-			$viewValues = array();
-	}	
+    $responseCode = 404;
+    $template = 'error/not-found.phtml';
+} catch (\Exception $e) {
+    $viewValues = array();
+    $responseCode = 500;
+    $template = 'error/error.phtml';
 }
 
 //Setup the view Layer

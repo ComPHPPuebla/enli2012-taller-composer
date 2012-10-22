@@ -46,5 +46,5 @@ $content = $twig->render($template, $viewValues);
 
 //Send the response
 $response = new Response($content);
-$response->setStatusCode(404);
+$response->setStatusCode($responseCode);
 $response->send();

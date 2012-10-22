@@ -18,15 +18,6 @@ extends HttpController
     }
 
     /**
-     * @param string $key
-     * @return mixed
-     */
-    public function getParam($key)
-    {
-        return isset($this->params[$key]) ? $this->params[$key] : null;
-    }
-
-    /**
      * @return NotORM
      */
     public function getNotORM()

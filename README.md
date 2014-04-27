@@ -12,7 +12,8 @@ Para instalar composer ejecuta:
 $ curl -s http://getcomposer.org/installer | php
 ```
 
-Para cargar los datos de prueba en la base de datos, ejecuta:
+Para cargar los datos de prueba en la base de datos, ejecuta (reemplaza los valores de usuario y
+contraseña):
 
 ```bash
 $ mysql --user=root --password="root" --default-character-set=utf8 < data/database.sql
@@ -75,6 +76,7 @@ El paso 5 integra la librería NotORM para acceso a base de datos
 
 ```bash
 	php composer.phar create-project comphppuebla/composerws ./step5 dev-step-5-notorm
+```
 	
 ### Paso 6
 

@@ -1,34 +1,17 @@
 <?php
 namespace ComPHPPuebla\Controller;
 
-class   BooksController
-extends HttpController
+use \NotORM;
+
+class BooksController extends HttpController
 {
-    /**
-     * @var NotORM
-     */
+    /** @type NotORM */
     protected $notORM;
-
-    /**
-     * @param \NotORM $notORM
-     */
-    public function __construct(\NotORM $notORM)
-    {
-        $this->setNotORM($notORM);
-    }
-
-    /**
-     * @return NotORM
-     */
-    public function getNotORM()
-    {
-        return $this->notORM;
-    }
 
     /**
      * @param NotORM $notORM
      */
-    public function setNotORM(\NotORM $notORM)
+    public function __construct(NotORM $notORM)
     {
         $this->notORM = $notORM;
     }
@@ -38,7 +21,7 @@ extends HttpController
      */
     public function listAction()
     {
-        return array('books' => $this->getNotORM()->book());
+        return ['books' => $this->notORM->book()];
     }
 
     /**
@@ -47,13 +30,16 @@ extends HttpController
     public function showAction()
     {
         $bookId = $this->getParam('bookId');
-        $book = $this->getNotOrm()
+
+        $book = $this->notORM
                      ->book('book_id = ?', $bookId)
                      ->fetch();
-        $book['author'] = $this->getNotOrm()
-                             ->author('author_id', $book['author_id'])
-                             ->fetch();
-        return array('book' => $book);
+
+        $book['author'] = $this->notORM
+                               ->author('author_id', $book['author_id'])
+                               ->fetch();
+
+        return ['book' => $book];
     }
 
 }

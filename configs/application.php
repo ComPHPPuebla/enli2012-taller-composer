@@ -1,54 +1,56 @@
 <?php
-$config = array(
-    'instance' => array(
-    	'ComPHPPuebla\Controller\BooksController' => array(
-   			'parameters' => array(
- 				'notORM' => 'NotORM',
-    		),
-    	),
-        'Aura\Router\Map' => array(
-            'parameters' => array(
+$config = [
+    'instance' => [
+        'ComPHPPuebla\Controller\BooksController' => [
+            'parameters' => [
+                 'notORM' => 'NotORM',
+            ],
+        ],
+        'Aura\Router\Map' => [
+            'parameters' => [
                 'route_factory' => 'Aura\Router\RouteFactory',
-                'attach' => array(
-                    '/books' => array(
+                'attach' => [
+                    '/books' => [
                         'name_prefix' => 'composer.books.',
-                        'values' => array(
-                        	// Default value for controller is book
-                            'controller' => 'books', 
-                        ),
-                        'routes' => array(
+                        'values' => [
+                            'controller' => 'books', // Default value for controller is book
+                        ],
+                        'routes' => [
                             'list' => '/{:action}',
                             'show' => '/{:action}/{:bookId}'
-                        )
-                    )
-                ),
-            ),
-        ),
-        'Twig_Environment' => array(
-            'parameters' => array(
+                        ]
+                    ]
+                ],
+            ],
+        ],
+        'Twig_Environment' => [
+            'parameters' => [
                 'loader' => 'Twig_Loader_Filesystem',
-                'options' => array(
-                    __DIR__ . '/../views/cache'
-                ),
-            )
-        ),
-        'Twig_Loader_Filesystem' => array(
-            'parameters' => array(
-                'paths' => __DIR__ . '/../views',
-            )
-        ),
-        'NotORM' => array(
-            'parameters' => array(
+                'options' => [
+                    'cache' => 'tmp/cache',
+                    'strict_variables' => true,
+                ],
+            ]
+        ],
+        'Twig_Loader_Filesystem' => [
+            'parameters' => [
+                'paths' => 'views',
+            ]
+        ],
+        'NotORM' => [
+            'parameters' => [
                 'connection' => 'PDO',
-            )
-        ),
-        'PDO' => array(
-            'parameters' => array(
+            ]
+        ],
+        'PDO' => [
+            'parameters' => [
                 'dsn' => 'mysql:host=localhost;dbname=book_store',
                 'username' => 'bstore_user',
                 'passwd' => 'book_store_us3r',
-            )
-        ),
-    ),
-);
+                'options' => [],
+            ]
+        ],
+    ],
+];
+
 return $config;

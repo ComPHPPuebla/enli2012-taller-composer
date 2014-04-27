@@ -1,29 +1,31 @@
 <?php
-$loader = require '../vendor/autoload.php';
-$loader->add('', __DIR__ . '/../vendor/notorm'); //Autoload NotORM 
-$loader->add('ComPHPPuebla', __DIR__ . '/../library/'); // Autoload ComPHPPuebla
+chdir(__DIR__ . '/../');
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Zend\Di\Config;
-use Zend\Di\Di;
-use ComPHPPuebla\Dispatcher\Dispatcher;
-use ComPHPPuebla\Dispatcher\NotFoundException;
+require 'vendor/autoload.php';
+
+use \Exception;
+use \Symfony\Component\HttpFoundation\Request;
+use \Symfony\Component\HttpFoundation\Response;
+use \Zend\Di\Config;
+use \Zend\Di\Di;
+use \ComPHPPuebla\Dispatcher\Dispatcher;
+use \ComPHPPuebla\Dispatcher\NotFoundException;
 
 //Configure your application
-$config = require '../configs/application.php';
+$config = require 'configs/application.php';
 $diConfig = new Config($config);
 $di = new Di();
 $diConfig->configure($di);
 
 // Setup the router
-$map = $di->get('Aura\Router\Map');
+$router = $di->get('Aura\Router\Map');
 
 // Route the request
 $request = Request::createFromGlobals();
-$route = $map->match($request->getPathInfo(), $request->server->all());
+$route = $router->match($request->getPathInfo(), $request->server->all());
 
 //Dispatch the request
+$viewValues = [];
 try {
     $dispatcher = new Dispatcher();
     $controller = $di->get($dispatcher->getControllerClass($route));
@@ -31,13 +33,11 @@ try {
     $responseCode = 200;
     $template = $dispatcher->getTemplateName();
 } catch (NotFoundException $nfe) {
-    $viewValues = array();
     $responseCode = 404;
-    $template = 'error/not-found.phtml';
-} catch (\Exception $e) {
-    $viewValues = array();
+    $template = 'error/not-found.html.twig';
+} catch (Exception $e) {var_dump((string)$e);die();
     $responseCode = 500;
-    $template = 'error/error.phtml';
+    $template = 'error/error.html.twig';
 }
 
 //Setup the view Layer

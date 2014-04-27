@@ -2,9 +2,10 @@
 <html>
     <head>
         <title>{{ book['title'] }}</title>
+        <meta charset="utf8">
     </head>
     <body>
-    	<h1>Detalle del libro</h1>
+        <h1>Detalle del libro</h1>
         <dl>
             <dt>Título</dt>
             <dd>{{ book['title'] }}</dd>
@@ -12,7 +13,7 @@
             <dd>{{ book['author']['name'] }}</dd>
         </dl>
         <p>
-            <a href="/enli2012/public/books/list">Volver a la lista</a>
+            <a href="/books/list">Volver a la lista</a>
         </p>
     </body>
 </html>

@@ -1,28 +1,24 @@
 <?php
 namespace ComPHPPuebla\Dispatcher;
 
-use ComPHPPuebla\Controller\HttpController;
+use \ComPHPPuebla\Controller\HttpController;
+use \ReflectionMethod;
+use \ReflectionException;
 
 class Dispatcher
 {
-    /**
-     * @var string
-     */
+    /** @type string */
     protected $controllerName;
 
-    /**
-     * @var string
-     */
+    /** @type string */
     protected $actionName;
 
-    /**
-     * @var string
-     */
+    /** @type string */
     protected $templateName;
 
     /**
-     * @param HttpController $controller
-     * @param array $params
+     * @param  HttpController          $controller
+     * @param  array                   $params
      * @throws ActionNotFoundException
      * @return array
      */
@@ -31,10 +27,13 @@ class Dispatcher
         $controller->setParams($params);
         $this->generateTemplateName($params['controller'], $params['action']);
         $this->generateActionName($params['action']);
+
         try {
-            $method = new \ReflectionMethod($controller, $this->getActionName());
+            $method = new ReflectionMethod($controller, $this->getActionName());
+
             return $method->invoke($controller);
-        } catch (\ReflectionException $e) {
+
+        } catch (ReflectionException $e) {
             throw new ActionNotFoundException($e->getMessage(), $e->getCode(), $e);
         }
     }
@@ -45,7 +44,7 @@ class Dispatcher
      */
     protected function generateTemplateName($controllerParam, $actionParam)
     {
-        $this->templateName = "$controllerParam/$actionParam.phtml";
+        $this->templateName = "$controllerParam/$actionParam.html.twig";
     }
 
     /**
@@ -57,24 +56,24 @@ class Dispatcher
     }
 
     /**
-     * @param string $actionParam
+     * @param  string $actionParam
      * @return string
      */
     protected function generateActionName($actionParam)
     {
         $this->actionName = $actionParam . 'Action';
     }
-    
+
     /**
      * @return string
      */
     public function getActionName()
     {
-    	return $this->actionName;
+        return $this->actionName;
     }
 
     /**
-     * @param string $route
+     * @param  string            $route
      * @throws NotFoundException
      * @return string
      */
@@ -84,16 +83,17 @@ class Dispatcher
             throw new RouteNotFoundException('No route found');
         }
         $this->generateControllerName($route->values['controller']);
+
         return $this->getControllerName();
     }
 
     /**
-     * @param string $controllerParam
+     * @param  string                      $controllerParam
      * @throws ControllerNotFoundException
      */
     protected function generateControllerName($controllerParam)
     {
-    	$controller = ucfirst($controllerParam);
+        $controller = ucfirst($controllerParam);
         $className = sprintf('ComPHPPuebla\Controller\%sController', $controller);
         if (!class_exists($className)) {
             $message = "Controller '$className' cannot be instantiated";
@@ -109,5 +109,4 @@ class Dispatcher
     {
         return $this->controllerName;
     }
-
 }

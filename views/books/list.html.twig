@@ -2,9 +2,10 @@
 <html>
     <head>
         <title>Catálogo de libros</title>
+        <meta charset="utf8">
     </head>
     <body>
-    	<h1>Catálogo de libros</h1>
+        <h1>Catálogo de libros</h1>
         <table>
             <tr>
                 <th>ID</th>
@@ -13,7 +14,7 @@
         {% for book in books %}
             <tr>
                 <td>
-                    <a href="/enli2012/public/books/show/{{ book['book_id'] }}">
+                    <a href="/books/show/{{ book['book_id'] }}">
                         Detalles
                     </a>
                 </td>

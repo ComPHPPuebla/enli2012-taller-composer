@@ -13,11 +13,7 @@
             </tr>
         {% for book in books %}
             <tr>
-                <td>
-                    <a href="/books/show/{{ book['book_id'] }}">
-                        Detalles
-                    </a>
-                </td>
+                <td><a href="/books/show/{{ book['book_id'] }}">Detalles</a></td>
                 <td>{{ book['title'] }}s</td>
             <tr>
         {% endfor %}

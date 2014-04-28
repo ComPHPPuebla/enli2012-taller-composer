@@ -75,7 +75,7 @@ $ php composer.phar create-project comphppuebla/composerws ./step4 dev-step-4-tw
 El paso 5 integra la librería NotORM para acceso a base de datos
 
 ```bash
-	php composer.phar create-project comphppuebla/composerws ./step5 dev-step-5-notorm
+$ php composer.phar create-project comphppuebla/composerws ./step5 dev-step-5-notorm
 ```
 	
 ### Paso 6

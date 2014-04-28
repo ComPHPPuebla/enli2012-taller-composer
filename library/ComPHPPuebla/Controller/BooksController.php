@@ -29,15 +29,9 @@ class BooksController extends HttpController
      */
     public function showAction()
     {
-        $bookId = $this->getParam('bookId');
+        $book = $this->notORM->book('book_id = ?', $this->getParam('bookId'))->fetch();
 
-        $book = $this->notORM
-                     ->book('book_id = ?', $bookId)
-                     ->fetch();
-
-        $book['author'] = $this->notORM
-                               ->author('author_id', $book['author_id'])
-                               ->fetch();
+        $book['author'] = $this->notORM->author('author_id', $book['author_id'])->fetch();
 
         return ['book' => $book];
     }

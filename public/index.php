@@ -35,7 +35,7 @@ try {
 } catch (NotFoundException $nfe) {
     $responseCode = 404;
     $template = 'error/not-found.html.twig';
-} catch (Exception $e) {var_dump((string)$e);die();
+} catch (Exception $e) {
     $responseCode = 500;
     $template = 'error/error.html.twig';
 }

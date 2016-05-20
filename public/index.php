@@ -1,21 +1,16 @@
 <?php
-chdir(__DIR__ . '/../');
+require '../vendor/autoload.php';
 
-require 'vendor/autoload.php';
-
-use \Exception;
-use \Symfony\Component\HttpFoundation\Request;
-use \Symfony\Component\HttpFoundation\Response;
-use \Zend\Di\Config;
-use \Zend\Di\Di;
-use \ComPHPPuebla\Dispatcher\Dispatcher;
-use \ComPHPPuebla\Dispatcher\NotFoundException;
+use DI\ContainerBuilder;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use ComPHPPuebla\Dispatcher\Dispatcher;
+use ComPHPPuebla\Dispatcher\NotFoundException;
 
 //Configure your application
-$config = require 'configs/application.php';
-$diConfig = new Config($config);
-$di = new Di();
-$diConfig->configure($di);
+$builder = new ContainerBuilder();
+$builder->addDefinitions(require '../configs/application.php');
+$di = $builder->build();
 
 // Setup the router
 $router = $di->get('Aura\Router\Map');

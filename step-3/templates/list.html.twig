@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Catálogo de libros</title>
+    <meta charset="utf8">
+</head>
+<body>
+<h1>Catálogo de libros</h1>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Título</th>
+    </tr>
+    {% for book in books %}
+    <tr>
+        <td>
+            <a href="show-book-detail.php?id={{ book.book_id }}">
+                Detalles
+            </a>
+        </td>
+        <td>{{ book.title }}</td>
+    <tr>
+    {% endfor %}
+</table>
+</body>
+</html>

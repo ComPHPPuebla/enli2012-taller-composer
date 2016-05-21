@@ -1,0 +1,16 @@
+{
+    "name": "comphppuebla/composerws",
+    "description": "Taller de Composer Comunidad PHP Puebla",
+    "homepage": "http://www.comunidadphppuebla.com",
+    "authors": [
+        {
+            "name": "Luis Montealegre",
+            "email": "montealegreluis@gmail.com"
+        }
+    ],
+    "license": "MIT",
+    "require": {
+        "php": ">=5.5",
+        "twig/twig": "^1.24"
+    }
+}

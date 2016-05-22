@@ -13,7 +13,7 @@ try {
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
     ]);
-    $bookId = (int) $_GET['id'];
+    $bookId = (int)$_GET['id'];
     $sql = <<<SELECT
     SELECT
         b.title,
@@ -25,16 +25,27 @@ SELECT;
     $statement = $connection->prepare($sql);
     $statement->execute([$bookId]);
     $book = $statement->fetch();
-
-    //Setup the view Layer
-    $loader = new Twig_Loader_Filesystem(__DIR__ . '/templates');
-    $twig = new Twig_Environment($loader, [
-        'cache' => __DIR__ . '/var/cache',
-        'strict_variables' => true,
-        'debug' => true,
-    ]);
-    echo $twig->render('show.html.twig', ['book' => $book]);
 } catch (PDOException $e) {
     error_log("PDO Exception: \n{$e}\n");
     http_response_code(500);
+    die;
 }
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Catálogo de libros</title>
+    <meta charset="utf8">
+</head>
+<body>
+<dl>
+    <dt>Título</dt>
+    <dd><?= $book['title'] ?></dd>
+    <dt>Autor</dt>
+    <dd><?= $book['author'] ?></dd>
+</dl>
+<p>
+    <a href="list-books.php">Volver a la lista</a>
+</p>
+</body>
+</html>

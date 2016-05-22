@@ -3,12 +3,12 @@ $dsn = 'mysql:host=localhost;dbname=book_store';
 $user = 'bstore_user';
 $password = 'book_store_us3r';
 try {
-    $conn = new PDO($dsn, $user, $password, [
+    $connection = new PDO($dsn, $user, $password, [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
     ]);
-    $statement = $conn->prepare('SELECT * FROM book');
+    $statement = $connection->prepare('SELECT * FROM book');
     $statement->execute();
     $books = $statement->fetchAll();
 } catch (PDOException $e) {

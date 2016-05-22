@@ -28,12 +28,12 @@ SELECT;
 
     //Setup the view Layer
     $loader = new Twig_Loader_Filesystem(__DIR__ . '/templates');
-    $twig = new Twig_Environment($loader, [
+    $view = new Twig_Environment($loader, [
         'cache' => __DIR__ . '/var/cache',
         'strict_variables' => true,
         'debug' => true,
     ]);
-    echo $twig->render('show.html.twig', ['book' => $book]);
+    echo $view->render('show.html.twig', ['book' => $book]);
 } catch (PDOException $e) {
     error_log("PDO Exception: \n{$e}\n");
     http_response_code(500);

@@ -13,7 +13,7 @@ try {
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
     ]);
-    $bookId = (int)$_GET['id'];
+    $bookId = (int) $_GET['id'];
     $sql = <<<SELECT
     SELECT
         b.title,

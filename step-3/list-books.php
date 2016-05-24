@@ -1,31 +1,19 @@
 <?php
 require __DIR__ . '/vendor/autoload.php';
-
-use Dotenv\Dotenv;
-
-$environment = new Dotenv(__DIR__);
-$environment->load();
-$environment->required(['DSN', 'USERNAME', 'PASSWORD']);
+require __DIR__ . '/config/environment.php';
+require __DIR__ . '/config/options.php';
 
 try {
-    $connection = new PDO(getenv('DSN'), getenv('USERNAME'), getenv('PASSWORD'), [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
-    ]);
+    /** @var PDO $connection */
+    $connection = require __DIR__ . '/config/connection.php';
     $statement = $connection->prepare('SELECT * FROM book');
     $statement->execute();
     $books = $statement->fetchAll();
-
-    //Setup the view Layer
-    $loader = new Twig_Loader_Filesystem(__DIR__ . '/templates');
-    $view = new Twig_Environment($loader, [
-        'cache' => __DIR__ . '/var/cache',
-        'strict_variables' => true,
-        'debug' => true,
-    ]);
-    echo $view->render('list.html.twig', ['books' => $books]);
-} catch (PDOException $e) {
-    error_log("PDO Exception: \n{$e}\n");
+    /** @var Twig_Environment $view */
+    $view = require __DIR__ . '/config/view.php';
+    echo $view->render('books/list.html.twig', ['books' => $books]);
+} catch (Exception $e) {
+    error_log("Exception: \n{$e}\n");
     http_response_code(500);
+    echo $view->render('errors/500.html.twig');
 }

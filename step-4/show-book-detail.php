@@ -1,23 +1,16 @@
 <?php
 require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/config/environment.php';
+require __DIR__ . '/config/options.php';
 
-use Dotenv\Dotenv;
 use Zend\Diactoros\Response\HtmlResponse;
 use Zend\Diactoros\Response\SapiEmitter;
 use Zend\Diactoros\ServerRequestFactory;
 
-$environment = new Dotenv(__DIR__);
-$environment->load();
-$environment->required(['DSN', 'USERNAME', 'PASSWORD']);
-
-$request = ServerRequestFactory::fromGlobals();
-
 try {
-    $connection = new PDO(getenv('DSN'), getenv('USERNAME'), getenv('PASSWORD'), [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
-    ]);
+    $request = ServerRequestFactory::fromGlobals();
+    /** @var PDO $connection */
+    $connection = require __DIR__ . '/config/connection.php';
     $bookId = (int) $request->getQueryParams()['id'];
     $sql = <<<SELECT
     SELECT
@@ -30,21 +23,15 @@ SELECT;
     $statement = $connection->prepare($sql);
     $statement->execute([$bookId]);
     $book = $statement->fetch();
-
-    //Setup the view Layer
-    $loader = new Twig_Loader_Filesystem(__DIR__ . '/templates');
-    $view = new Twig_Environment($loader, [
-        'cache' => __DIR__ . '/var/cache',
-        'strict_variables' => true,
-        'debug' => true,
-    ]);
-    $response = new HtmlResponse($view->render('show.html.twig', [
+    /** @var Twig_Environment $view */
+    $view = require __DIR__ . '/config/view.php';
+    $response = new HtmlResponse($view->render('books/show.html.twig', [
         'book' => $book,
     ]));
+} catch (Exception $e) {
+    error_log("Exception: \n{$e}\n");
+    $response = new HtmlResponse($view->render('errors/500.html.twig'), 500);
+} finally {
     $emitter = new SapiEmitter();
     $emitter->emit($response);
-
-} catch (PDOException $e) {
-    error_log("PDO Exception: \n{$e}\n");
-    http_response_code(500);
 }

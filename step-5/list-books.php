@@ -1,41 +1,26 @@
 <?php
 require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/config/environment.php';
+require __DIR__ . '/config/options.php';
 
-use Dotenv\Dotenv;
-use Zend\Db\Adapter\Adapter;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Diactoros\Response\HtmlResponse;
 use Zend\Diactoros\Response\SapiEmitter;
 
-$environment = new Dotenv(__DIR__);
-$environment->load();
-$environment->required(['DATABASE', 'USERNAME', 'PASSWORD']);
-
 try {
-    $adapter = new Adapter([
-        'driver' => 'Pdo_Mysql',
-        'database' => getenv('DATABASE'),
-        'username' => getenv('USERNAME'),
-        'password' => getenv('PASSWORD'),
-    ]);
-    $booksTable = new TableGateway('book', $adapter);
+    /** @var \Zend\Db\Adapter\Adapter $connection */
+    $connection = require __DIR__ . '/config/connection.php';
+    $booksTable = new TableGateway('book', $connection);
     $books = $booksTable->select();
-
-    //Setup the view Layer
-    $loader = new Twig_Loader_Filesystem(__DIR__ . '/templates');
-    $view = new Twig_Environment($loader, [
-        'cache' => __DIR__ . '/var/cache',
-        'strict_variables' => true,
-        'debug' => true,
-    ]);
-
-    $response = new HtmlResponse($view->render('list.html.twig', [
+    /** @var Twig_Environment $view */
+    $view = require __DIR__ . '/config/view.php';
+    $response = new HtmlResponse($view->render('books/list.html.twig', [
         'books' => $books,
     ]));
+} catch (Exception $e) {
+    error_log("Exception: \n{$e}\n");
+    $response = new HtmlResponse($view->render('errors/500.html.twig'), 500);
+} finally {
     $emitter = new SapiEmitter();
     $emitter->emit($response);
-
-} catch (PDOException $e) {
-    error_log("PDO Exception: \n{$e}\n");
-    http_response_code(500);
 }

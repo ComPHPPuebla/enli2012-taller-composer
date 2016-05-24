@@ -1,0 +1,24 @@
+{
+    "name": "comphppuebla/composerws",
+    "description": "Taller de Composer Comunidad PHP Puebla",
+    "homepage": "http://www.comunidadphppuebla.com",
+    "authors": [
+        {
+            "name": "Luis Montealegre",
+            "email": "montealegreluis@gmail.com"
+        }
+    ],
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "ComPHPPuebla\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=5.5",
+        "vlucas/phpdotenv": "^2.2",
+        "twig/twig": "^1.24",
+        "zendframework/zend-diactoros": "^1.3",
+        "zendframework/zend-db": "^2.8"
+    }
+}

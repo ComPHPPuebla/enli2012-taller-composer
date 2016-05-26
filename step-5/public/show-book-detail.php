@@ -1,7 +1,7 @@
 <?php
-require __DIR__ . '/vendor/autoload.php';
-require __DIR__ . '/config/environment.php';
-require __DIR__ . '/config/options.php';
+require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../config/environment.php';
+require __DIR__ . '/../config/options.php';
 
 use Zend\Db\Sql\Select;
 use Zend\Db\TableGateway\TableGateway;
@@ -12,7 +12,7 @@ use Zend\Diactoros\ServerRequestFactory;
 try {
     $request = ServerRequestFactory::fromGlobals();
     /** @var \Zend\Db\Adapter\Adapter $connection */
-    $connection = require __DIR__ . '/config/connection.php';
+    $connection = require __DIR__ . '/../config/connection.php';
     $booksTable = new TableGateway(['b' => 'book'], $connection);
     $bookId = (int) $request->getQueryParams()['id'];
     $book = $booksTable->select(function (Select $select) use ($bookId) {
@@ -27,7 +27,7 @@ try {
         ;
     })->current();
     /** @var Twig_Environment $view */
-    $view = require __DIR__ . '/config/view.php';
+    $view = require __DIR__ . '/../config/view.php';
     $response = new HtmlResponse($view->render('books/show.html.twig', [
         'book' => $book,
     ]));

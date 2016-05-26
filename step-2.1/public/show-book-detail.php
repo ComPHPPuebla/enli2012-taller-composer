@@ -1,18 +1,11 @@
 <?php
-require __DIR__ . '/vendor/autoload.php';
-
-use Dotenv\Dotenv;
-
-$environment = new Dotenv(__DIR__);
-$environment->load();
-$environment->required(['DSN', 'USERNAME', 'PASSWORD']);
+require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../config/environment.php';
+require __DIR__ . '/../config/options.php';
 
 try {
-    $connection = new PDO(getenv('DSN'), getenv('USERNAME'), getenv('PASSWORD'), [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
-    ]);
+    /** @var PDO $connection */
+    $connection = require __DIR__ . '/../config/connection.php';
     $bookId = (int) $_GET['id'];
     $sql = <<<SELECT
     SELECT

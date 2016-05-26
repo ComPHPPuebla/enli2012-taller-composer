@@ -1,7 +1,7 @@
 <?php
-require __DIR__ . '/vendor/autoload.php';
-require __DIR__ . '/config/environment.php';
-require __DIR__ . '/config/options.php';
+require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../config/environment.php';
+require __DIR__ . '/../config/options.php';
 
 use Zend\Diactoros\Response\HtmlResponse;
 use Zend\Diactoros\Response\SapiEmitter;
@@ -10,7 +10,7 @@ use Zend\Diactoros\ServerRequestFactory;
 try {
     $request = ServerRequestFactory::fromGlobals();
     /** @var \ComPHPPuebla\ShowBooks $controller */
-    $controller = require __DIR__ . '/config/controller.php';
+    $controller = require __DIR__ . '/../config/controller.php';
     $response = $controller->showDetails(
         (int) $request->getQueryParams()['id']
     );

@@ -1,11 +1,11 @@
 <?php
-require __DIR__ . '/vendor/autoload.php';
-require __DIR__ . '/config/environment.php';
-require __DIR__ . '/config/options.php';
+require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../config/environment.php';
+require __DIR__ . '/../config/options.php';
 
 try {
     /** @var PDO $connection */
-    $connection = require __DIR__ . '/config/connection.php';
+    $connection = require __DIR__ . '/../config/connection.php';
     $bookId = (int) $_GET['id'];
     $sql = <<<SELECT
     SELECT
@@ -19,8 +19,8 @@ SELECT;
     $statement->execute([$bookId]);
     $book = $statement->fetch();
     /** @var Twig_Environment $view */
-    $view = require __DIR__ . '/config/view.php';
-    echo $view->render('books/show.htm.twig', ['book' => $book]);
+    $view = require __DIR__ . '/../config/view.php';
+    echo $view->render('books/show.html.twig', ['book' => $book]);
 } catch (Exception $e) {
     error_log("Exception: \n{$e}\n");
     http_response_code(500);

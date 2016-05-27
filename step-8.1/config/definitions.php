@@ -1,4 +1,5 @@
 <?php
+use ComPHPPuebla\BooksApplication\ErrorHandler;
 use ComPHPPuebla\BooksApplication\RouteDispatcher;
 use ComPHPPuebla\BooksCatalog\Books;
 use ComPHPPuebla\BooksCatalog\ShowBooks;
@@ -52,12 +53,9 @@ return [
     },
     Twig_Environment::class => function (ContainerInterface $container) {
         return new Twig_Environment(
-            $container->get(Twig_Loader_Filesystem::class),
+            new Twig_Loader_Filesystem($container->get('views.path')),
             $container->get('views.options')
         );
-    },
-    Twig_Loader_Filesystem::class => function (ContainerInterface $container) {
-        return new Twig_Loader_Filesystem($container->get('views.path'));
     },
     Books::class => function (ContainerInterface $container) {
         return new Books(
@@ -66,5 +64,8 @@ return [
                 new Adapter($container->get('db.options'))
             )
         );
+    },
+    ErrorHandler::class => function (ContainerInterface $container) {
+        return new ErrorHandler($container->get(Twig_Environment::class));
     },
 ];

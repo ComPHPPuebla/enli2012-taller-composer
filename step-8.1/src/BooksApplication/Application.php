@@ -38,9 +38,10 @@ class Application
                 $request->getMethod(),
                 $request->getUri()->getPath()
             );
-        } catch (Exception $e) {
-            error_log("Exception: \n{$e}\n");
-            $response = new HtmlResponse($view->render('errors/500.html.twig'), 500);
+        } catch (Exception $exception) {
+            /** @var ErrorHandler $handler */
+            $handler = $this->container->get(ErrorHandler::class);
+            $response = $handler->handle($exception, 500);
         } finally {
             $emitter = new SapiEmitter();
             $emitter->emit($response);

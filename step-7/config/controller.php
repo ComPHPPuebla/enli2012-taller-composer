@@ -11,8 +11,5 @@ return new ShowBooks(
             new Adapter($options['db']['options'])
         )
     ),
-    new Twig_Environment(
-        new Twig_Loader_Filesystem($options['view']['paths']),
-        $options['view']['options']
-    )
+    $view
 );

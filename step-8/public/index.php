@@ -2,6 +2,7 @@
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../config/environment.php';
 
+use ComPHPPuebla\BooksApplication\ErrorHandler;
 use DI\ContainerBuilder;
 use FastRoute\Dispatcher;
 use Zend\Diactoros\Response\HtmlResponse;
@@ -28,9 +29,10 @@ try {
         default:
             throw new RuntimeException('Route not found.');
     }
-} catch (Exception $e) {
-    error_log("Exception: \n{$e}\n");
-    //$response = new HtmlResponse($view->render('errors/500.html.twig'), 500);
+} catch (Exception $exception) {
+    /** @var ErrorHandler $handler */
+    $handler = $container->get(ErrorHandler::class);
+    $response = $handler->handle($exception, 500);
 } finally {
     $emitter = new SapiEmitter();
     $emitter->emit($response);

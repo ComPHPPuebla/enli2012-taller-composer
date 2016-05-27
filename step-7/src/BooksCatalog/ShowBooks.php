@@ -1,19 +1,19 @@
 <?php
-namespace ComPHPPuebla\BooksLibrary;
+namespace ComPHPPuebla\BooksCatalog;
 
 use Twig_Environment as View;
 use Zend\Diactoros\Response\HtmlResponse;
 
 class ShowBooks
 {
-    /** @var BooksTable */
+    /** @var Books */
     private $books;
 
     /** @var View */
     private $view;
 
     /**
-     * @param BooksTable $books
+     * @param Books $books
      * @param View $view
      */
     public function __construct(Books $books, View $view)

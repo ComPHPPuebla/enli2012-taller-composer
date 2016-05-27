@@ -1,7 +1,7 @@
 <?php
 use ComPHPPuebla\BooksApplication\RouteDispatcher;
-use ComPHPPuebla\BooksLibrary\Books;
-use ComPHPPuebla\BooksLibrary\ShowBooks;
+use ComPHPPuebla\BooksCatalog\Books;
+use ComPHPPuebla\BooksCatalog\ShowBooks;
 use FastRoute\RouteCollector;
 use Interop\Container\ContainerInterface;
 use Zend\Db\Adapter\Adapter;

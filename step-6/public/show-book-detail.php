@@ -9,7 +9,7 @@ use Zend\Diactoros\ServerRequestFactory;
 
 try {
     $request = ServerRequestFactory::fromGlobals();
-    /** @var \ComPHPPuebla\BooksLibrary\ShowBooks $controller */
+    /** @var \ComPHPPuebla\BooksCatalog\ShowBooks $controller */
     $controller = require __DIR__ . '/../config/controller.php';
     $response = $controller->showDetails((int) $request->getQueryParams()['id']);
 } catch (Exception $e) {

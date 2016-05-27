@@ -7,7 +7,7 @@ use Zend\Diactoros\Response\HtmlResponse;
 use Zend\Diactoros\Response\SapiEmitter;
 
 try {
-    /** @var \ComPHPPuebla\BooksLibrary\Books $books */
+    /** @var \ComPHPPuebla\BooksCatalog\Books $books */
     $books = require __DIR__ . '/../config/books.php';
 
     /** @var Twig_Environment $view */

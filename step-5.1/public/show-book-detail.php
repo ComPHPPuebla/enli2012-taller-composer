@@ -9,7 +9,7 @@ use Zend\Diactoros\ServerRequestFactory;
 
 try {
     $request = ServerRequestFactory::fromGlobals();
-    /** @var \ComPHPPuebla\BooksLibrary\Books $books */
+    /** @var \ComPHPPuebla\BooksCatalog\Books $books */
     $books = require __DIR__ . '/../config/books.php';
 
     /** @var Twig_Environment $view */

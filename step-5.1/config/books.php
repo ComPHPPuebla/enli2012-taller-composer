@@ -1,5 +1,5 @@
 <?php
-use ComPHPPuebla\BooksLibrary\Books;
+use ComPHPPuebla\BooksCatalog\Books;
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\TableGateway\TableGateway;
 

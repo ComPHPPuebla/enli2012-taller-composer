@@ -1,5 +1,5 @@
 <?php
-namespace ComPHPPuebla\BooksLibrary;
+namespace ComPHPPuebla\BooksCatalog;
 
 use Twig_Environment as View;
 use Zend\Diactoros\Response\HtmlResponse;

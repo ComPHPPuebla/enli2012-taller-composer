@@ -7,7 +7,7 @@ use Zend\Diactoros\Response\HtmlResponse;
 use Zend\Diactoros\Response\SapiEmitter;
 
 try {
-    /** @var \ComPHPPuebla\ShowBooks $controller */
+    /** @var \ComPHPPuebla\BooksLibrary\ShowBooks $controller */
     $controller = require __DIR__ . '/../config/controller.php';
     $response = $controller->viewAll();
 } catch (Exception $e) {

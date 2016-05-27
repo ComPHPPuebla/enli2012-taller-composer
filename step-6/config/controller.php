@@ -1,11 +1,11 @@
 <?php
-use ComPHPPuebla\BooksTable;
-use ComPHPPuebla\ShowBooks;
+use ComPHPPuebla\BooksLibrary\Books;
+use ComPHPPuebla\BooksLibrary\ShowBooks;
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\TableGateway\TableGateway;
 
 return new ShowBooks(
-    new BooksTable(
+    new Books(
         new TableGateway(
             ['b' => 'book'],
             new Adapter($options['db']['options'])

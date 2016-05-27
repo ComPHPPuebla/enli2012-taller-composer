@@ -1,7 +1,7 @@
 <?php
 require __DIR__ . '/../vendor/autoload.php';
 
-use ComPHPPuebla\Application;
+use ComPHPPuebla\BooksApplication\Application;
 use Dotenv\Dotenv;
 use Zend\Diactoros\ServerRequestFactory;
 

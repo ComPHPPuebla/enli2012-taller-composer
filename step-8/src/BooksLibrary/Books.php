@@ -4,12 +4,12 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
-namespace ComPHPPuebla;
+namespace ComPHPPuebla\BooksLibrary;
 
 use Zend\Db\Sql\Select;
 use Zend\Db\TableGateway\TableGateway;
 
-class BooksTable
+class Books
 {
     /** @var  TableGateway */
     private $table;

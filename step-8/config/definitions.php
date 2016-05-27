@@ -1,6 +1,6 @@
 <?php
-use ComPHPPuebla\BooksTable;
-use ComPHPPuebla\ShowBooks;
+use ComPHPPuebla\BooksLibrary\Books;
+use ComPHPPuebla\BooksLibrary\ShowBooks;
 use FastRoute\RouteCollector;
 use Interop\Container\ContainerInterface;
 use Zend\Db\Adapter\Adapter;
@@ -32,7 +32,7 @@ return [
     ],
     ShowBooks::class => function (ContainerInterface $container) {
         return new ShowBooks(
-            $container->get(BooksTable::class),
+            $container->get(Books::class),
             $container->get(Twig_Environment::class)
         );
     },
@@ -57,8 +57,8 @@ return [
     Twig_Loader_Filesystem::class => function (ContainerInterface $container) {
         return new Twig_Loader_Filesystem($container->get('views.path'));
     },
-    BooksTable::class => function (ContainerInterface $container) {
-        return new BooksTable(
+    Books::class => function (ContainerInterface $container) {
+        return new Books(
             new TableGateway(
                 ['b' => 'book'],
                 new Adapter($container->get('db.options'))

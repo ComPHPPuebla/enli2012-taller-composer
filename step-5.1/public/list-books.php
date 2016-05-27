@@ -7,13 +7,13 @@ use Zend\Diactoros\Response\HtmlResponse;
 use Zend\Diactoros\Response\SapiEmitter;
 
 try {
-    /** @var \ComPHPPuebla\BooksTable $allBooks */
+    /** @var \ComPHPPuebla\BooksLibrary\Books $books */
     $books = require __DIR__ . '/../config/books.php';
-    $allBooks = $books->all();
+
     /** @var Twig_Environment $view */
     $view = require __DIR__ . '/../config/view.php';
     $response = new HtmlResponse($view->render('books/list.html.twig', [
-        'books' => $allBooks,
+        'books' => $books->all(),
     ]));
 } catch (Exception $e) {
     error_log("Exception: \n{$e}\n");

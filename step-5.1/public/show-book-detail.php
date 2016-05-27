@@ -9,14 +9,13 @@ use Zend\Diactoros\ServerRequestFactory;
 
 try {
     $request = ServerRequestFactory::fromGlobals();
-    /** @var \ComPHPPuebla\BooksTable $books */
+    /** @var \ComPHPPuebla\BooksLibrary\Books $books */
     $books = require __DIR__ . '/../config/books.php';
-    $bookId = (int) $request->getQueryParams()['id'];
-    $book = $books->with($bookId);
+
     /** @var Twig_Environment $view */
     $view = require __DIR__ . '/../config/view.php';
     $response = new HtmlResponse($view->render('books/show.html.twig', [
-        'book' => $book,
+        'book' => $books->with((int) $request->getQueryParams()['id']),
     ]));
 } catch (Exception $e) {
     error_log("Exception: \n{$e}\n");

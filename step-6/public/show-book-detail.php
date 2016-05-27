@@ -9,11 +9,9 @@ use Zend\Diactoros\ServerRequestFactory;
 
 try {
     $request = ServerRequestFactory::fromGlobals();
-    /** @var \ComPHPPuebla\ShowBooks $controller */
+    /** @var \ComPHPPuebla\BooksLibrary\ShowBooks $controller */
     $controller = require __DIR__ . '/../config/controller.php';
-    $response = $controller->showDetails(
-        (int) $request->getQueryParams()['id']
-    );
+    $response = $controller->showDetails((int) $request->getQueryParams()['id']);
 } catch (Exception $e) {
     error_log("Exception: \n{$e}\n");
     $response = new HtmlResponse($view->render('errors/500.html.twig'), 500);

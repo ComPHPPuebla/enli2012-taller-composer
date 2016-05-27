@@ -1,8 +1,8 @@
 <?php
-use ComPHPPuebla\BooksTable;
+use ComPHPPuebla\BooksLibrary\Books;
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\TableGateway\TableGateway;
 
-return new BooksTable(
+return new Books(
     new TableGateway(['b' => 'book'], new Adapter($options['db']['options']))
 );

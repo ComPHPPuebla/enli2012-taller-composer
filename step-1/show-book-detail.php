@@ -1,5 +1,5 @@
 <?php
-$dsn = 'mysql:host=localhost;dbname=book_store';
+$dsn = 'mysql:host=composerw_db;dbname=book_store';
 $user = 'bstore_user';
 $password = 'book_store_us3r';
 try {

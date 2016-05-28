@@ -1,0 +1,26 @@
+web:
+  container_name: composerw_web
+  build: .
+  ports:
+    - "8000:8000"
+  links:
+    - db
+  volumes:
+    - .:/usr/src/myapp
+data:
+  container_name: composerw_data
+  build: ./containers/data
+db:
+  image: mysql:5.7
+  container_name: composerw_db
+  volumes:
+      - ./containers/db:/docker-entrypoint-initdb.d
+  volumes_from:
+    - data
+  ports:
+    - "3306:3306"
+  environment:
+    MYSQL_ROOT_PASSWORD: dev_password
+    MYSQL_USER: bstore_user
+    MYSQL_PASSWORD: book_store_us3r
+    MYSQL_DATABASE: book_store

@@ -6,6 +6,7 @@ $options = [
             'database' => getenv('DATABASE'),
             'username' => getenv('USERNAME'),
             'password' => getenv('PASSWORD'),
+            'hostname' => getenv('HOST'),
         ],
     ],
     'view' => [

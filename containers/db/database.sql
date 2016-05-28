@@ -1,12 +1,3 @@
--- Create database
-DROP DATABASE IF EXISTS book_store;
-CREATE DATABASE book_store 
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_general_ci;
-
--- Create user
-GRANT ALL PRIVILEGES on book_store.* TO bstore_user@localhost IDENTIFIED BY 'book_store_us3r';
-
 -- Create tables
 USE book_store;
 

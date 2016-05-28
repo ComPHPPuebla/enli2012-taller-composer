@@ -14,6 +14,7 @@ return [
         'database' => getenv('DATABASE'),
         'username' => getenv('USERNAME'),
         'password' => getenv('PASSWORD'),
+        'hostname' => getenv('HOST'),
     ],
     'router.routes' => [
         'books.view_all' => [

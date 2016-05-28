@@ -15,16 +15,18 @@ La forma mas simple de ejecutar estos ejemplos es con [Docker][1] y
 ejecuta:
 
 ```bash
-$ make install
-$ make start 
+$ make install GITHUB_TOKEN=xxxx
+$ source .alias
 ```
 
-El comando `make install` solo lo ejecutas la primera vez, el resto de las veces
-solo necesitaras `make start`.
+Remplaza el valor `xxxx` por un [token válido][6].
 
-La pagina que debes vistar de los pasos **1** al **6** es
-http://localhost:8000/list-books.php para los pasos **7** y **8** usa la pagina
-http://localhost:8000/books
+El comando `make install` solo lo ejecutas la primera vez, el resto de las veces
+solo necesitaras `source .alias`.
+
+La página que debes vistar de los pasos **1** al **6** es
+[http://localhost:8000/list-books.php][4] para los pasos **7** y **8** usa la
+página [http://localhost:8000/books][5]
 
 ### Paso 1
 
@@ -32,15 +34,16 @@ El paso 1 consiste en dos archivos que muestran una lista de libros con links
 que nos permiten ver su detalle
 
 ```bash
-$ step-1
+$ step1
 ```
 
 ### Paso 2
 
-El paso 2 integra `vlucas/phpdotenv` para separar la configuracón del código.
+El paso 2 integra `vlucas/phpdotenv` para separar la configuración del código.
 
 ```bash
-$ step-2
+$ composer2 # Este solo es necesario la primera vez
+$ step2
 ```
 
 ### Paso 3
@@ -48,7 +51,8 @@ $ step-2
 El paso 3 integra el motor de plantillas Twig `twig/twig`.
 
 ```bash
-$ step-3
+$ composer3 # Este solo es necesario la primera vez
+$ step3
 ```
 
 ### Paso 4
@@ -57,7 +61,8 @@ El paso 4 integra el componente `zendframework/zend-diactoros` para representar
 mensajes HTTP (*Request*-*Response*).
 
 ```bash
-$ step-4
+$ composer4 # Este solo es necesario la primera vez
+$ step4
 ```
 
 ### Paso 5
@@ -66,7 +71,8 @@ El paso 5 integra la librería `zendframework/zend-db` para el acceso a base de
 datos.
 
 ```bash
-$ step-5
+$ composer5 # Este solo es necesario la primera vez
+$ step5
 ```
 
 ### Paso 6
@@ -74,7 +80,8 @@ $ step-5
 El paso 6 integra controladores.
 
 ```bash
-$ step-6
+$ composer6 # Este solo es necesario la primera vez
+$ step6
 ```
 
 ### Paso 7
@@ -82,7 +89,8 @@ $ step-6
 El paso 7 integra el router `nikic/fast-route`.
 
 ```bash
-$ step-7
+$ composer7 # Este solo es necesario la primera vez
+$ step7
 ```
 
 ### Paso 8
@@ -90,9 +98,13 @@ $ step-7
 El paso 8 integra el contenedor de inyección de dependencias `php-di/php-di`.
 
 ```bash
-$ step-8
+$ composer8 # Este solo es necesario la primera vez
+$ step8
 ```
 
 [1]: https://getcomposer.org/
 [2]: https://www.docker.com/
 [3]: https://docs.docker.com/compose/
+[4]: http://localhost:8000/list-books.php
+[5]: http://localhost:8000/books
+[6]: https://github.com/settings/tokens

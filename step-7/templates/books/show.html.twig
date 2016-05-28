@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{ book.title }}</title>
-    <meta charset="utf8">
-</head>
-<body>
+{% extends 'layout.html.twig' %}
+
+{% block title %}{{ book.title }}{% endblock %}
+
+{% block content %}
 <h1>Detalle del libro</h1>
 <dl>
     <dt>Título</dt>
@@ -15,5 +13,4 @@
 <p>
     <a href="/books">Volver a la lista</a>
 </p>
-</body>
-</html>
+{% endblock %}

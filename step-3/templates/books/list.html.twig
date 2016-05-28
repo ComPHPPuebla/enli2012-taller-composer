@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Catálogo de libros</title>
-    <meta charset="utf8">
-</head>
-<body>
-<h1>Catálogo de libros</h1>
+{% extends 'layout.html.twig' %}
+
+{% block title %}Catálogo de libros{% endblock %}
+
+{% block content %}
 <table>
     <tr>
         <th>ID</th>
@@ -22,5 +19,4 @@
     <tr>
     {% endfor %}
 </table>
-</body>
-</html>
+{% endblock %}

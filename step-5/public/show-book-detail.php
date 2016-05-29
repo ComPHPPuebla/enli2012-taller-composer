@@ -8,11 +8,15 @@ require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../config/environment.php';
 require __DIR__ . '/../config/options.php';
 
-use Zend\Db\Sql\Select;
-use Zend\Db\TableGateway\TableGateway;
-use Zend\Diactoros\Response\HtmlResponse;
-use Zend\Diactoros\Response\SapiEmitter;
-use Zend\Diactoros\ServerRequestFactory;
+use Zend\Db\{
+    Sql\Select,
+    TableGateway\TableGateway
+};
+use Zend\Diactoros\{
+    Response\HtmlResponse,
+    Response\SapiEmitter,
+    ServerRequestFactory
+};
 
 try {
     $request = ServerRequestFactory::fromGlobals();

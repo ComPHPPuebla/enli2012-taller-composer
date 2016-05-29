@@ -4,13 +4,17 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
-use ComPHPPuebla\BooksApplication\ErrorHandler;
-use ComPHPPuebla\BooksCatalog\Books;
-use ComPHPPuebla\BooksCatalog\ShowBooks;
+use ComPHPPuebla\{
+    BooksApplication\ErrorHandler,
+    BooksCatalog\Books,
+    BooksCatalog\ShowBooks
+};
 use FastRoute\RouteCollector;
 use Interop\Container\ContainerInterface;
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\TableGateway\TableGateway;
+use Zend\Db\{
+    Adapter\Adapter,
+    TableGateway\TableGateway
+};
 use function FastRoute\simpleDispatcher;
 
 return [

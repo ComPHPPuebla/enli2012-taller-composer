@@ -9,9 +9,11 @@ require __DIR__ . '/../config/environment.php';
 require __DIR__ . '/../config/options.php';
 require __DIR__ . '/../config/view.php';
 
-use Zend\Diactoros\Response\HtmlResponse;
-use Zend\Diactoros\Response\SapiEmitter;
-use Zend\Diactoros\ServerRequestFactory;
+use Zend\Diactoros\{
+    Response\HtmlResponse,
+    Response\SapiEmitter,
+    ServerRequestFactory
+};
 
 try {
     $request = ServerRequestFactory::fromGlobals();

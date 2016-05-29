@@ -11,8 +11,7 @@ use Dotenv\Dotenv;
 use Exception;
 use Interop\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Diactoros\Response\HtmlResponse;
-use Zend\Diactoros\Response\SapiEmitter;
+use Zend\Diactoros\Response\{HtmlResponse, SapiEmitter};
 
 class Application
 {

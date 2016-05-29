@@ -10,9 +10,11 @@ require __DIR__ . '/../config/environment.php';
 use ComPHPPuebla\BooksApplication\ErrorHandler;
 use DI\ContainerBuilder;
 use FastRoute\Dispatcher;
-use Zend\Diactoros\Response\HtmlResponse;
-use Zend\Diactoros\Response\SapiEmitter;
-use Zend\Diactoros\ServerRequestFactory;
+use Zend\Diactoros\{
+    Response\HtmlResponse,
+    Response\SapiEmitter,
+    ServerRequestFactory
+};
 
 try {
     $builder = new ContainerBuilder();

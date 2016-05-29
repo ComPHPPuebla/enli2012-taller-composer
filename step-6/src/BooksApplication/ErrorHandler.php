@@ -28,7 +28,7 @@ class ErrorHandler
      * @param int $statusCode
      * @return HtmlResponse
      */
-    public function handle(Exception $e, $statusCode)
+    public function handle(Exception $e, int $statusCode): HtmlResponse
     {
         error_log("Exception: \n{$e}\n");
 

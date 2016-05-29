@@ -6,7 +6,7 @@ use Zend\Diactoros\Response\HtmlResponse;
 
 class ShowBooks
 {
-    /** @var BooksTable */
+    /** @var Books */
     private $books;
 
     /** @var View */
@@ -25,7 +25,7 @@ class ShowBooks
     /**
      * @return HtmlResponse
      */
-    public function viewAll()
+    public function viewAll(): HtmlResponse
     {
         return new HtmlResponse($this->view->render('books/list.html.twig', [
             'books' => $this->books->all(),
@@ -36,7 +36,7 @@ class ShowBooks
      * @param int $bookId
      * @return HtmlResponse
      */
-    public function showDetails($bookId)
+    public function showDetails(int $bookId): HtmlResponse
     {
         return new HtmlResponse($this->view->render('books/show.html.twig', [
             'book' => $this->books->with($bookId),

@@ -6,6 +6,7 @@ use FastRoute\RouteCollector;
 use Interop\Container\ContainerInterface;
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\TableGateway\TableGateway;
+use function FastRoute\simpleDispatcher;
 
 return [
     'db.options' => [
@@ -39,7 +40,7 @@ return [
     },
     'FastRoute/SimpleDispatcher' => function (ContainerInterface $container) {
         $routes = $container->get('router.routes');
-        return FastRoute\simpleDispatcher(function(RouteCollector $router) use ($routes) {
+        return simpleDispatcher(function(RouteCollector $router) use ($routes) {
             foreach ($routes as $route) {
                 $router->addRoute(
                     $route['method'],

@@ -6,6 +6,8 @@
  */
 namespace ComPHPPuebla\BooksCatalog;
 
+use ArrayObject;
+use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\Sql\Select;
 use Zend\Db\TableGateway\TableGateway;
 
@@ -23,18 +25,18 @@ class Books
     }
 
     /**
-     * @return \Zend\Db\ResultSet\ResultSet
+     * @return ResultSet
      */
-    public function all()
+    public function all(): ResultSet
     {
         return $this->table->select();
     }
 
     /**
      * @param int $bookId
-     * @return array
+     * @return ArrayObject
      */
-    public function with($bookId)
+    public function with(int $bookId): ArrayObject
     {
         return $this->table->select(function (Select $select) use ($bookId) {
             $select

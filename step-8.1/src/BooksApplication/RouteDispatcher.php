@@ -11,7 +11,7 @@ use Interop\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use RuntimeException;
 
-class RouteDispatcher implements Dispatcher
+class RouteDispatcher
 {
     /** @var Dispatcher */
     private $dispatcher;
@@ -35,15 +35,15 @@ class RouteDispatcher implements Dispatcher
      * @return ResponseInterface
      * @throws RuntimeException
      */
-    public function dispatch($httpMethod, $uri)
+    public function dispatch(string $httpMethod, string $uri): ResponseInterface
     {
         $route = $this->dispatcher->dispatch($httpMethod, $uri);
         switch ($route[0]) {
             case Dispatcher::FOUND:
                 list($controller, $action) = explode(':', $route[1]);
-                $vars = $route[2];
+                $vars = array_values($route[2]);
                 $controller = $this->container->get($controller);
-                return call_user_func_array([$controller, $action], $vars);
+                return $controller->$action(...$vars);
                 break;
             default:
                 throw new RuntimeException('Route not found.');

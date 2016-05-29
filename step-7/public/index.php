@@ -19,9 +19,9 @@ try {
     switch ($route[0]) {
         case Dispatcher::FOUND:
             $action = $route[1];
-            $vars = $route[2];
+            $vars = array_values($route[2]);
             $controller = require __DIR__ . '/../config/controller.php';
-            $response = call_user_func_array([$controller, $action], $vars);
+            $response = $controller->$action(...$vars);
             break;
         default:
             throw new RuntimeException('Route not found.');

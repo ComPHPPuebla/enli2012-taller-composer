@@ -34,18 +34,42 @@ SELECT;
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Catálogo de libros</title>
-    <meta charset="utf8">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><?= $book['title'] ?></title>
+    <link
+        rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+        integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+        crossorigin="anonymous"
+    >
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js">
+    </script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js">
+    </script>
+    <![endif]-->
 </head>
 <body>
-<dl>
-    <dt>Título</dt>
-    <dd><?= $book['title'] ?></dd>
-    <dt>Autor</dt>
-    <dd><?= $book['author'] ?></dd>
-</dl>
-<p>
-    <a href="list-books.php">Volver a la lista</a>
-</p>
+<div class="container">
+    <article class="row">
+        <h1>Detalles del libro</h1>
+        <dl>
+            <dt>Título</dt>
+            <dd><?= $book['title'] ?></dd>
+            <dt>Autor</dt>
+            <dd><?= $book['author'] ?></dd>
+        </dl>
+        <p>
+            <a href="list-books.php">Volver a la lista</a>
+        </p>
+    </article>
+</div>
+<script
+    src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+    integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+    crossorigin="anonymous"
+></script>
 </body>
 </html>

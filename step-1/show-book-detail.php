@@ -1,4 +1,9 @@
 <?php
+/**
+ * PHP version 7
+ *
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
+ */
 $dsn = 'mysql:host=composerw_db;dbname=book_store';
 $user = 'bstore_user';
 $password = 'book_store_us3r';

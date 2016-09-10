@@ -4,9 +4,9 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
-$dsn = 'mysql:host=composerw_db;dbname=book_store';
+$dsn = 'mysql:host=phppuebla_db;dbname=book_store';
 $user = 'bstore_user';
-$password = 'book_store_us3r';
+$password = 'bstore_us3r';
 try {
     $connection = new PDO($dsn, $user, $password, [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,

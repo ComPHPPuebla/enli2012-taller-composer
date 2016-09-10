@@ -1,1 +1,5 @@
-/containers/config/auth.json
+/containers/images/db/database.sql
+/docker-compose.yml
+/Dockerfile
+/.env.sh
+

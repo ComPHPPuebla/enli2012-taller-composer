@@ -1,5 +1,5 @@
 -- Create tables
-USE book_store;
+USE ${DB_NAME};
 
 CREATE TABLE IF NOT EXISTS `author` (
   `author_id` int(11) NOT NULL AUTO_INCREMENT,

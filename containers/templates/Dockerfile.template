@@ -7,12 +7,12 @@ RUN chmod a+x /group.sh
 
 # Create custom user and group to match the ones in the host machine
 RUN /group.sh
-RUN useradd -ms /bin/bash -g 1000 -u 1000 luis
+RUN useradd -ms /bin/bash -g ${HOST_GROUP_ID} -u ${HOST_USER_ID} ${HOST_USER}
 RUN mkdir -p /composer/.composer
 RUN mkdir -p /composer/vendor/bin
 
-RUN mv /home/luis/.bashrc /etc/bashrc
-COPY ./containers/config/.bashrc /home/luis/.bashrc
+RUN mv /home/${HOST_USER}/.bashrc /etc/bashrc
+COPY ./containers/config/.bashrc /home/${HOST_USER}/.bashrc
 
 COPY ./containers/config/php.ini /usr/local/etc/php/
 COPY ./containers/config/auth.json /composer/.composer/
@@ -48,11 +48,11 @@ RUN composer --version
 # Copy Composer's Github token
 COPY ./containers/config/auth.json /composer/
 
-RUN chown -R luis /composer
+RUN chown -R ${HOST_USER} /composer
 
 WORKDIR /usr/src/myapp
 
-USER luis
-ENV HOME /home/luis
+USER ${HOST_USER}
+ENV HOME /home/${HOST_USER}
 
 EXPOSE 8000

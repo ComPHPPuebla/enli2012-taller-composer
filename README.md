@@ -1,7 +1,7 @@
 # Taller de Composer
 
 Este taller fue creado originalmente para el ENLi 2012 y su objetivo es
-ejemplificar como comenzar a usar [Composer][1] de manera gradual en un proyecto
+ejemplificar el uso de [Composer][1] de manera gradual en un proyecto
 existente.
 
 ## Instalación
@@ -15,14 +15,22 @@ La forma más simple de ejecutar estos ejemplos es con [Docker][1] y
 ejecuta:
 
 ```bash
-$ make install GITHUB_TOKEN=xxxx
-$ source .alias
+$ make env
 ```
 
-Remplaza el valor `xxxx` por un [token válido][6].
+Esto creará un archivo `env.sh`, remplaza el valor de la variable `GITHUB_TOKEN`
+por un [token válido][6]. Luego ejecuta:
 
-El comando `make install` sólo lo ejecutas la primera vez, el resto de las veces
-solo necesitarás `source .alias`.
+```bash
+$ make install
+```
+
+Este comando sólo lo ejecutas la primera vez, el resto de las veces  solo 
+necesitarás:
+
+```bash
+$ source .alias
+```
 
 La página que debes vistar de los pasos **1** al **6** es
 [http://localhost:8000/list-books.php][4] para los pasos **7** y **8** usa la

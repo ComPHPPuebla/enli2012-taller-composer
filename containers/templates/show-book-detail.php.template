@@ -4,18 +4,27 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
-$dsn = 'mysql:host=phppuebla_db;dbname=book_store';
-$user = 'bstore_user';
-$password = 'bstore_us3r';
+$dsn = 'mysql:host=${CONTAINERS_PREFIX}_db;dbname=${DB_NAME}';
+$user = '${DB_USER}';
+$password = '${DB_PASSWORD}';
 try {
     $connection = new PDO($dsn, $user, $password, [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
     ]);
-    $statement = $connection->prepare('SELECT * FROM book');
-    $statement->execute();
-    $books = $statement->fetchAll();
+    $bookId = (int) $_GET['id'];
+    $sql = <<<SELECT
+    SELECT
+        b.title,
+        a.name AS author
+    FROM book b INNER JOIN author a
+      ON b.author_id = a.author_id
+    WHERE book_id = ?
+SELECT;
+    $statement = $connection->prepare($sql);
+    $statement->execute([$bookId]);
+    $book = $statement->fetch();
 } catch (PDOException $e) {
     error_log("PDO Exception: \n{$e}\n");
     http_response_code(500);
@@ -28,7 +37,7 @@ try {
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Catálogo de libros</title>
+    <title><?= $book['title'] ?></title>
     <link
         rel="stylesheet"
         href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
@@ -45,23 +54,16 @@ try {
 <body>
 <div class="container">
     <article class="row">
-        <h1>Catálogo de libros</h1>
-        <table class="table table-striped table-bordered table-hover">
-            <tr>
-                <th>ID</th>
-                <th>Título</th>
-            </tr>
-            <?php foreach ($books as $book) : ?>
-            <tr>
-                <td>
-                    <a href="show-book-detail.php?id=<?= $book['book_id'] ?>">
-                        Detalles
-                    </a>
-                </td>
-                <td><?= $book['title'] ?></td>
-            <tr>
-            <?php endforeach ?>
-        </table>
+        <h1>Detalles del libro</h1>
+        <dl>
+            <dt>Título</dt>
+            <dd><?= $book['title'] ?></dd>
+            <dt>Autor</dt>
+            <dd><?= $book['author'] ?></dd>
+        </dl>
+        <p>
+            <a href="list-books.php">Volver a la lista</a>
+        </p>
     </article>
 </div>
 <script

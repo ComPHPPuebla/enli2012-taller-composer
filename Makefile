@@ -9,7 +9,9 @@ env:
 
 install:
 	@echo "Generating files to match the host User and Group IDs for the container..."
-    @source .env.sh; rm -f Dockerfile; CONTAINER_VARS='$$HOST_USER_ID:$$HOST_GROUP_ID:$$HOST_USER'; envsubst "$$CONTAINER_VARS" < "containers/templates/Dockerfile.template" > "Dockerfile";
+	@source .env.sh; rm -f step-1/list-books.php; CONTAINER_VARS='$$CONTAINERS_PREFIX:$$DB_USER:$$DB_PASSWORD:$$DB_NAME'; envsubst "$$CONTAINER_VARS" < "containers/templates/list-books.php.template" > "step-1/list-books.php";
+	@source .env.sh; rm -f step-1/show-book-detail.php; CONTAINER_VARS='$$CONTAINERS_PREFIX:$$DB_USER:$$DB_PASSWORD:$$DB_NAME'; envsubst "$$CONTAINER_VARS" < "containers/templates/show-book-detail.php.template" > "step-1/show-book-detail.php";
+	@source .env.sh; rm -f Dockerfile; CONTAINER_VARS='$$HOST_USER_ID:$$HOST_GROUP_ID:$$HOST_USER'; envsubst "$$CONTAINER_VARS" < "containers/templates/Dockerfile.template" > "Dockerfile";
 	@source .env.sh; rm -f containers/config/group.sh; CONTAINER_VARS='$$HOST_GROUP_ID:$$HOST_USER'; envsubst "$$CONTAINER_VARS" < "containers/templates/group.sh.template" > "containers/config/group.sh";
 	@source .env.sh; rm -f containers/config/.bashrc; CONTAINER_VARS='$$CONTAINER_HOSTNAME'; envsubst "$$CONTAINER_VARS" < "containers/templates/.bashrc.template" > "containers/config/.bashrc";
 	@source .env.sh; rm -f docker-compose.yml; CONTAINER_VARS='$$CONTAINERS_PREFIX:$$DB_ROOT_PASSWORD:$$DB_USER:$$DB_PASSWORD:$$DB_NAME'; envsubst "$$CONTAINER_VARS" < "containers/templates/docker-compose.yml.template" > "docker-compose.yml";
